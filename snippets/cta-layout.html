@@ -1,0 +1,60 @@
+<!--
+  CTA LAYOUT — "Frontier billboard"
+  ---------------------------------
+  A blue gradient editorial CTA panel with:
+   • Pulsing dot + tracked uppercase eyebrow
+   • Big two-line serif headline (Reckless Neue) with one word in italic Times
+   • Pitch paragraph
+   • Capability pills (right column on desktop, below body on mobile)
+   • Footer row: white pill CTA on the left, contact email on the right
+
+  CSS lives in styles.css under "Frontier billboard" — no extra stylesheet needed.
+  Drop this block anywhere a CTA moment is wanted.
+
+  Customize:
+   • frontier__label   — eyebrow text
+   • frontier__title   — change wording / italic span
+   • frontier__pitch   — paragraph copy
+   • frontier__capabilities li — list items
+   • frontier__cta + frontier__contact — CTA button + email
+-->
+
+<div class="frontier reveal" data-frontier>
+  <div class="frontier__bg" aria-hidden="true">
+    <span class="orb orb--1"></span>
+    <span class="orb orb--2"></span>
+  </div>
+
+  <div class="frontier__head">
+    <span class="frontier__pin"></span>
+    <span class="frontier__label">E-mobility &middot; Growth focus &middot; 2026</span>
+  </div>
+
+  <div class="frontier__body">
+    <h3 class="frontier__title">
+      <span class="line">We're building modular's</span>
+      <span class="line"><em>e-mobility</em> practice.</span>
+    </h3>
+
+    <p class="frontier__pitch">
+      Brand systems, launch communications, and long-form storytelling for the makers ready to take Taiwan's ebike industry to the world. Your project could be our first.
+    </p>
+  </div>
+
+  <ul class="frontier__capabilities">
+    <li>Brand systems</li>
+    <li>Launch comms</li>
+    <li>D2C strategy</li>
+    <li>Long-form content</li>
+    <li>Photography</li>
+    <li>Motion</li>
+  </ul>
+
+  <div class="frontier__foot">
+    <a href="#contact" class="frontier__cta">
+      <span>Talk to us about yours</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="mailto:vicky.lin@modularagency.io" class="frontier__contact">vicky.lin@modularagency.io</a>
+  </div>
+</div>
