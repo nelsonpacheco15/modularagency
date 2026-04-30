@@ -1105,10 +1105,15 @@ p { margin: 0; }
   .venn-stage .venn { margin: clamp(10px, 2.4vh, 24px) auto 0; }
 
   .venn { padding-bottom: 0; }
-  .venn.is-active { padding-bottom: 60px; }
+  /* Reserve enough room below the diagram for the full story (lead + tag
+     with their dividers and margins) so the absolutely-positioned story
+     never extends UP into the circles. */
+  .venn.is-active { padding-bottom: clamp(280px, 46vh, 380px); }
   .venn__label--left  { left: 18%; }
   .venn__label--right { left: 82%; }
-  .venn.is-active .venn__core { transform: scale(0.62) translateY(-8%); }
+  /* Shrink the diagram a bit more on mobile and lift it so the story
+     has clear breathing room below. */
+  .venn.is-active .venn__core { transform: scale(0.55) translateY(-18%); }
 
   .intersection__hint { margin-top: clamp(24px, 6vh, 48px); }
 }
@@ -2810,10 +2815,13 @@ a.m-mod--cover:hover .m-mod__cover-link { gap: 14px; color: var(--white); }
 .team-card__role {
   font-family: var(--font-sans);
   font-size: 11px;
+  line-height: 1.35;
   letter-spacing: 0.06em;
   color: var(--ink-soft);
   text-align: right;
-  flex-shrink: 0;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .team-card__fact {
@@ -2871,6 +2879,7 @@ a.m-mod--cover:hover .m-mod__cover-link { gap: 14px; color: var(--white); }
 /* ============ About page — Venn cloud (keyword bloom on click) ============ */
 .intersection--about {
   background: var(--canvas);
+  padding-bottom: clamp(128px, 16vh, 180px);
 }
 
 .venn-stage {
