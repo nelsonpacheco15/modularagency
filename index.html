@@ -25,10 +25,9 @@
       </svg>
     </a>
     <nav>
-      <a href="#work">Work</a>
-      <a href="about.html">Studio</a>
-      <a href="#team">Team</a>
-      <a href="mailto:vicky.lin@modularagency.io" class="nav-cta">
+      <a href="portfolio.html">Work</a>
+      <a href="about.html">About us</a>
+      <a href="mailto:contact@modularagency.io" class="nav-cta">
         <span>Start a project</span>
         <span class="arrow">↗</span>
       </a>
@@ -49,8 +48,7 @@
 
     <!-- Footnote strip at the bottom -->
     <div class="hero__foot">
-      <span class="reveal"><span class="status-dot"></span>Available for new work — Q3 2026</span>
-      <span class="reveal" id="hero-time" aria-live="polite">Taipei&nbsp;·&nbsp;—</span>
+      <span class="reveal">Taipei, Taiwan</span>
     </div>
   </section>
 
@@ -97,34 +95,77 @@
     </div>
   </section>
 
-  <!-- ============ INTERSECTION ============ -->
+  <!-- ============ CLIENT LOGOS — MOBILE ONLY ============ -->
+  <section class="client-strip" aria-label="We work with">
+    <p class="client-strip__label"><em>We work with</em></p>
+    <ul class="client-strip__row">
+      <li class="client-strip__logo" aria-label="Apple"      style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63c0eff1364d231d09e91e6c_image%206.png')"></li>
+      <li class="client-strip__logo" aria-label="Meta"       style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63db63973f1f2222f395d2fa_meta.png')"></li>
+      <li class="client-strip__logo" aria-label="Microsoft"  style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63c0eff26f20f409ae22fec4_image%205.png')"></li>
+      <li class="client-strip__logo" aria-label="Lenovo"     style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63db63968ec01fc46c0c57d4_lenovo.png')"></li>
+      <li class="client-strip__logo" aria-label="Acer"       style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63c0eff353502212b0016998_image%209.png')"></li>
+      <li class="client-strip__logo" aria-label="BenQ"       style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63c0eff513352a6279b56e36_image%2016.png')"></li>
+      <li class="client-strip__logo" aria-label="ViewSonic"  style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63c0eff5a8036c3cb5afce05_image%2014.png')"></li>
+      <li class="client-strip__logo" aria-label="Cisco"      style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63db639503182953ea7957db_cisco.png')"></li>
+      <li class="client-strip__logo" aria-label="Edelman"    style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63c0eff367846c7e0d7ad767_image%207.png')"></li>
+      <li class="client-strip__logo" aria-label="Predator"   style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63c0eff3bb52da0ac126d9cb_image%2010.png')"></li>
+      <li class="client-strip__logo" aria-label="King Steel" style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63db63946ca3bebc42b2b70a_kingsteel.png')"></li>
+      <li class="client-strip__logo" aria-label="Rhinoshield" style="--logo: url('https://cdn.prod.website-files.com/61068df1ca32f73d6fc30dae/63c0eff6a12dc3015cf81625_image%2015.png')"></li>
+    </ul>
+  </section>
+
+  <!-- ============ INTERSECTION (Venn diagram) ============ -->
   <section class="intersection" id="intersection">
     <div class="intersection__head">
-      <p class="eyebrow reveal"><span class="dot"></span>Two worlds, one studio</p>
+      <p class="eyebrow reveal"><span class="dot"></span>Two worlds, one agency</p>
       <h2 class="reveal" style="margin-top: 14px;">Where Taiwan meets the world.</h2>
-      <p class="lead reveal" style="margin-top: 16px; margin-inline: auto;">Tap a side &mdash; we'll show you what we bring to it.</p>
     </div>
 
-    <div class="intersection__stage" id="stage" data-stage>
-      <div class="circle circle--left" data-side="left"
-        data-keywords="manufacturing, e-mobility, hardware, craft, gaming, hustle, OEM, ODM, factories, prototypes, supply chain, components, tooling, late nights, Taipei, Taichung, Hsinchu, makers, R&D, density">
-        <span class="circle__label">Taiwan</span>
+    <div class="venn" data-venn>
+      <div class="venn__core">
+        <!-- The two circles + lens, drawn as SVG for crisp geometry -->
+        <svg class="venn__diagram" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Left circle -->
+          <circle class="venn__ring venn__ring--left" cx="180" cy="180" r="178" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <!-- Right circle -->
+          <circle class="venn__ring venn__ring--right" cx="420" cy="180" r="178" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <!-- Intersection lens — filled with brand blue at low opacity -->
+          <path class="venn__lens" d="M 300,46 A 178,178 0 0,1 300,314 A 178,178 0 0,1 300,46 Z" fill="rgba(0,41,245,0.16)"/>
+        </svg>
+
+        <!-- Labels positioned over the SVG -->
+        <span class="venn__label venn__label--left">
+          <span class="venn__market">Taiwan</span>
+          <span class="venn__sub">market</span>
+        </span>
+        <span class="venn__label venn__label--right">
+          <span class="venn__market">Western</span>
+          <span class="venn__sub">market</span>
+        </span>
+
+        <!-- Modular icon at the centre — clickable, sparks on activate -->
+        <button class="venn__icon" id="venn-trigger" aria-label="Reveal Modular's role in the intersection">
+          <img src="assets/mark-main.svg" alt="" />
+          <!-- spark particles -->
+          <span class="spark spark--1" style="--x:-58px; --y:-44px;"></span>
+          <span class="spark spark--2" style="--x:62px;  --y:-48px;"></span>
+          <span class="spark spark--3" style="--x:-72px; --y:18px;"></span>
+          <span class="spark spark--4" style="--x:68px;  --y:24px;"></span>
+          <span class="spark spark--5" style="--x:-32px; --y:62px;"></span>
+          <span class="spark spark--6" style="--x:38px;  --y:66px;"></span>
+          <span class="spark spark--7" style="--x:0;     --y:-72px;"></span>
+          <span class="spark spark--8" style="--x:0;     --y:80px;"></span>
+        </button>
       </div>
 
-      <div class="circle circle--right" data-side="right"
-        data-keywords="strategy, storytelling, brand systems, English-native, distribution, design taste, narrative, positioning, copywriting, art direction, motion, editorial, audience, retail, channels, growth, demand, premium, taste, restraint">
-        <span class="circle__label">The world</span>
+      <!-- Story text revealed on click -->
+      <div class="venn__story" id="venn-story" aria-live="polite">
+        <p class="venn__story-lead">We are the intersection &mdash; the connection between Taiwanese companies and the Western, English-speaking market.</p>
+        <p class="venn__story-tag">We are your <em>English&#8209;speaking</em> agency with a Western mindset, based in Taipei.</p>
       </div>
-
-      <button class="intersection__center" id="center" aria-label="See both sides at once">
-        <span class="amp">&amp;</span>
-      </button>
-
-      <div class="cloud cloud--left"  data-cloud="left"></div>
-      <div class="cloud cloud--right" data-cloud="right"></div>
     </div>
 
-    <p class="intersection__hint">Click either circle &middot; <a href="about.html">read the full story</a></p>
+    <p class="intersection__hint">Tap the mark to reveal &middot; <a href="about.html">read the full story</a></p>
   </section>
 
   <!-- ============ STATEMENT ============ -->
@@ -132,7 +173,6 @@
     <div class="container">
       <div class="statement__inner reveal">
         <p>
-          <span class="dim">We don't sell deliverables.</span>
           We build the brand systems, stories and content that turn Taiwan's most ambitious companies into names the rest of the world recognises &mdash;
           <span class="blue">in their language, on their terms.</span>
         </p>
@@ -145,43 +185,39 @@
     <div class="container portfolio__head">
       <div>
         <p class="eyebrow"><span class="dot"></span>Selected work</p>
-        <h2 class="reveal">Six years of helping Taiwan's makers reach the world.</h2>
+        <h2 class="reveal">The work that made Taiwanese brands<br>reach the world.</h2>
       </div>
-      <a href="#" class="view-all">View all <span class="arrow">↗</span></a>
+      <a href="portfolio.html" class="view-all">View all <span class="arrow">↗</span></a>
     </div>
 
     <div class="categories" data-categories>
-      <button class="category is-active" data-filter="all">
-        <div class="category__head">
-          <span class="category__count">16</span>
-          <span class="category__name">All</span>
-        </div>
-        <p class="category__tagline">Everything we've shipped &mdash; six years of work.</p>
-      </button>
-
-      <button class="category category--featured" data-filter="emobility">
+      <button class="category category--featured is-active" data-filter="emobility">
         <span class="category__badge">Frontier · 2026</span>
         <div class="category__head">
           <span class="category__count">Soon</span>
           <span class="category__name">E-mobility</span>
         </div>
-        <p class="category__tagline">Modular's growth focus &mdash; brand &amp; launch for ebikes ready to cross the Pacific. Be our first.</p>
+      </button>
+
+      <button class="category" data-filter="all">
+        <div class="category__head">
+          <span class="category__count">6</span>
+          <span class="category__name">All</span>
+        </div>
       </button>
 
       <button class="category" data-filter="tech">
         <div class="category__head">
-          <span class="category__count">5</span>
-          <span class="category__name">Tech</span>
+          <span class="category__count">3</span>
+          <span class="category__name">Gaming</span>
         </div>
-        <p class="category__tagline">Hardware, software, and the line between.</p>
       </button>
 
       <button class="category" data-filter="manufacturing">
         <div class="category__head">
-          <span class="category__count">1</span>
+          <span class="category__count">3</span>
           <span class="category__name">Manufacturing</span>
         </div>
-        <p class="category__tagline">The factories that make everything you own.</p>
       </button>
     </div>
 
@@ -191,7 +227,7 @@
       <a href="case-study.html" class="card" data-cat="tech">
         <div class="card__media">
           <img src="https://cdn.prod.website-files.com/63bfc0fd79c8e246c4906104/64c204d370867f68c6946e49_Screen%20Shot%202023-07-27%20at%201.46.07%20PM.png" alt="Acer ConceptD" loading="lazy" />
-          <span class="label label--ink">Tech</span>
+          <span class="label label--ink">Gaming</span>
         </div>
         <div class="card__meta"><span class="title">Acer ConceptD</span><span class="year">'25</span></div>
       </a>
@@ -199,7 +235,7 @@
       <a href="case-study.html" class="card" data-cat="tech">
         <div class="card__media">
           <img src="https://cdn.prod.website-files.com/63bfc0fd79c8e246c4906104/63bfc487ccb1e10b61343ffb_6156d11b4273543a6f4497ac_Frame%2021.png" alt="Predator Klismos" loading="lazy" />
-          <span class="label label--ink">Tech</span>
+          <span class="label label--ink">Gaming</span>
         </div>
         <div class="card__meta"><span class="title">Predator Klismos</span><span class="year">'25</span></div>
       </a>
@@ -207,7 +243,7 @@
       <a href="case-study.html" class="card" data-cat="tech">
         <div class="card__media">
           <img src="https://cdn.prod.website-files.com/63bfc0fd79c8e246c4906104/63edc8d995958dba99e304f1_Untitled%20design%20(47).png" alt="BenQ" loading="lazy" />
-          <span class="label label--ink">Tech</span>
+          <span class="label label--ink">Gaming</span>
         </div>
         <div class="card__meta"><span class="title">BenQ</span><span class="year">'24</span></div>
       </a>
@@ -220,18 +256,18 @@
         <div class="card__meta"><span class="title">King Steel</span><span class="year">'24</span></div>
       </a>
 
-      <a href="case-study.html" class="card" data-cat="tech">
+      <a href="case-study.html" class="card" data-cat="manufacturing">
         <div class="card__media">
           <img src="https://cdn.prod.website-files.com/63bfc0fd79c8e246c4906104/63eb1e38f03250bcc5a5a536_acastro_180226_0001.jpg" alt="Microsoft" loading="lazy" />
-          <span class="label label--ink">Tech</span>
+          <span class="label label--ink">Manufacturing</span>
         </div>
         <div class="card__meta"><span class="title">Microsoft</span><span class="year">'24</span></div>
       </a>
 
-      <a href="case-study.html" class="card" data-cat="tech">
+      <a href="case-study.html" class="card" data-cat="manufacturing">
         <div class="card__media">
           <img src="https://cdn.prod.website-files.com/63bfc0fd79c8e246c4906104/63eb53feb96042cfa495db95_Untitled%20design%20(42).png" alt="BES Groups" loading="lazy" />
-          <span class="label label--ink">Tech</span>
+          <span class="label label--ink">Manufacturing</span>
         </div>
         <div class="card__meta"><span class="title">BES Groups</span><span class="year">'23</span></div>
       </a>
@@ -249,10 +285,9 @@
     <div class="container">
       <div class="team__head">
         <div>
-          <p class="eyebrow"><span class="dot"></span>The studio</p>
-          <h2 class="reveal" style="margin-top: 16px;">A small team. Half local, half from somewhere else.</h2>
+          <p class="eyebrow"><span class="dot"></span>The agency</p>
+          <h2 class="reveal" style="margin-top: 16px;">The team that makes everything happen.</h2>
         </div>
-        <p>Strategists, designers, writers, and motion folks &mdash; based in Taipei, working in English and Mandarin. Tap a face to meet someone.</p>
       </div>
 
       <div class="team__photo">
@@ -311,8 +346,8 @@
       <p class="eyebrow reveal"><span class="dot"></span>Contact us</p>
 
       <h2 class="display contact-block__title reveal">
-        <span class="line">Got a project</span>
-        <span class="line">worth telling?</span>
+        <span class="line">Got a project to</span>
+        <span class="line">make global?</span>
       </h2>
 
       <a href="mailto:vicky.lin@modularagency.io" class="contact-block__email reveal">
@@ -322,8 +357,7 @@
 
       <div class="contact-block__meta reveal">
         <span>Taipei, Taiwan</span>
-        <span>Available for new work — Q3 2026</span>
-        <span>Mon — Fri · 10:00 — 19:00 (UTC+8)</span>
+        <span>Mon — Fri · 9:30 AM — 6:00 PM &middot; Closed Sat &amp; Sun</span>
       </div>
     </div>
   </section>
@@ -345,34 +379,32 @@
             <path d="M229.582 83.4053H197.908L229.582 120.712H261.255L229.582 83.4053Z" fill="#0029F5"/>
           </svg>
         </a>
-        <p class="footer__pitch">An independent studio at the intersection of Taiwan and the world.</p>
+        <p class="footer__pitch">An independent agency at the intersection of Taiwan and the world.</p>
       </div>
 
       <div class="footer__col">
-        <h4>Studio</h4>
+        <h4>Agency</h4>
         <ul>
-          <li><a href="#work">Work</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="#team">Team</a></li>
-          <li><a href="#">Journal</a></li>
+          <li><a href="portfolio.html">Work</a></li>
+          <li><a href="about.html">About us</a></li>
         </ul>
       </div>
 
       <div class="footer__col">
         <h4>Contact</h4>
         <ul>
-          <li><a href="mailto:vicky.lin@modularagency.io">vicky.lin@modularagency.io</a></li>
-          <li>Taipei, Taiwan</li>
+          <li><a href="mailto:contact@modularagency.io">contact@modularagency.io</a></li>
+          <li>+886 916 884 223</li>
+          <li>No. 380 Linsen N Rd, 7-1<br>Zhongshan District, Taipei 10491</li>
         </ul>
       </div>
 
       <div class="footer__col">
         <h4>Elsewhere</h4>
         <ul>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">Behance</a></li>
-          <li><a href="#">Vimeo</a></li>
+          <li><a href="https://www.instagram.com/modularagency" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.linkedin.com/company/modular-agency/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://www.youtube.com/@modularamarketingmindset" target="_blank" rel="noopener">YouTube</a></li>
         </ul>
       </div>
     </div>

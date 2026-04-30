@@ -5,23 +5,6 @@
 (function () {
   'use strict';
 
-  /* ---------- Hero: live Taipei time ---------- */
-  const timeEl = document.getElementById('hero-time');
-  if (timeEl) {
-    const fmt = new Intl.DateTimeFormat('en-GB', {
-      timeZone: 'Asia/Taipei',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
-    const tick = () => {
-      timeEl.textContent = `Taipei  ·  ${fmt.format(new Date())}`;
-    };
-    tick();
-    setInterval(tick, 1000);
-  }
-
   /* ---------- Reveal on scroll ---------- */
   const revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length) {
@@ -94,6 +77,15 @@
     const partnerSpan = PARTNER_END - PARTNER_START;
 
     const update = () => {
+      // On phones the video is static — no sticky, no grow. Bail out so the
+      // inline width/border-radius styles never override the CSS.
+      if (window.matchMedia('(max-width: 720px)').matches) {
+        frame.style.width = '';
+        frame.style.borderRadius = '';
+        showreel.classList.remove('is-full');
+        return;
+      }
+
       const rect = showreel.getBoundingClientRect();
       const total = showreel.offsetHeight - window.innerHeight;
       const scrolled = Math.min(Math.max(-rect.top, 0), total);
@@ -102,7 +94,9 @@
       // ---- video grow phase ----
       const grow = Math.min(progress / GROW_END, 1);
       const eased = 1 - Math.pow(1 - grow, 3);
-      const w = 56 + (100 - 56) * eased;
+      // Allow CSS to set the starting width per breakpoint via --start-width
+      const startW = parseFloat(getComputedStyle(frame).getPropertyValue('--start-width')) || 56;
+      const w = startW + (100 - startW) * eased;
       const r = 14 + (0 - 14) * eased;
       frame.style.width = w + 'vw';
       frame.style.borderRadius = r + 'px';
@@ -228,7 +222,27 @@
     window.addEventListener('resize', onScroll);
   }
 
-  /* ---------- Intersection: keyword cloud burst ---------- */
+  /* ---------- Venn diagram: click the Modular icon → reveal story + sparks ---------- */
+  const venn = document.querySelector('[data-venn]');
+  const vennTrigger = document.getElementById('venn-trigger');
+  if (venn && vennTrigger) {
+    vennTrigger.addEventListener('click', () => {
+      // toggle so a second click resets
+      const wasActive = venn.classList.contains('is-active');
+      venn.classList.remove('is-active');
+      // re-trigger sparks animation by removing then re-adding next frame
+      requestAnimationFrame(() => {
+        if (!wasActive) venn.classList.add('is-active');
+      });
+    });
+
+    // click outside the venn closes the story
+    document.addEventListener('click', (e) => {
+      if (!venn.contains(e.target)) venn.classList.remove('is-active');
+    });
+  }
+
+  /* ---------- (legacy) Intersection: keyword cloud burst ---------- */
   const stage = document.querySelector('[data-stage]');
   const centerBtn = document.getElementById('center');
 
@@ -374,84 +388,147 @@
   const filterWrap = document.querySelector('[data-categories], [data-filters]');
   if (filterWrap) {
     const buttons = filterWrap.querySelectorAll('.category, .filter');
-    const cards = document.querySelectorAll('.rail__track .card');
+    // Card container: rail on the home page, grid on the portfolio page
+    const container = document.querySelector('[data-rail], [data-grid]');
+    const cards = container ? container.querySelectorAll('.card') : [];
     const emptyState = document.querySelector('[data-empty]');
-    const rail = document.querySelector('.rail__track');
+
+    const applyFilter = (filter) => {
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const match = filter === 'all' || card.dataset.cat === filter;
+        card.classList.toggle('is-hidden', !match);
+        if (match) visibleCount++;
+      });
+      if (emptyState) {
+        if (visibleCount === 0) {
+          emptyState.removeAttribute('hidden');
+          if (container) container.style.display = 'none';
+        } else {
+          emptyState.setAttribute('hidden', '');
+          if (container) container.style.display = '';
+        }
+      }
+      if (container && container.matches('[data-rail]')) container.scrollLeft = 0;
+    };
 
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter;
         buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
-
-        let visibleCount = 0;
-        cards.forEach((card) => {
-          const match = filter === 'all' || card.dataset.cat === filter;
-          card.classList.toggle('is-hidden', !match);
-          if (match) visibleCount++;
-        });
-
-        // empty state
-        if (emptyState) {
-          if (visibleCount === 0) {
-            emptyState.removeAttribute('hidden');
-            if (rail) rail.style.display = 'none';
-          } else {
-            emptyState.setAttribute('hidden', '');
-            if (rail) rail.style.display = '';
-          }
-        }
-
-        if (rail) rail.scrollLeft = 0;
+        applyFilter(btn.dataset.filter);
       });
     });
+
+    // Run the initial filter so the active button's state is reflected on load
+    const initial = filterWrap.querySelector('.category.is-active, .filter.is-active') || buttons[0];
+    if (initial) applyFilter(initial.dataset.filter);
   }
 
-  /* ---------- Portfolio rails: pointer-drag horizontal scroll ---------- */
+  /* ---------- Portfolio rails: pointer-drag horizontal scroll w/ momentum ---------- */
   document.querySelectorAll('[data-rail]').forEach((rail) => {
-    let isDown = false;
+    let pointerId = null;
     let startX = 0;
     let startScroll = 0;
+    let lastX = 0;
+    let lastTime = 0;
+    let velocity = 0;             // px per frame (60fps)
+    let momentumRAF = 0;
     let moved = false;
+    const DRAG_THRESHOLD = 6;
+    const MOMENTUM_DECAY = 0.94;  // velocity multiplier per frame
+    const MIN_VELOCITY = 0.4;     // stop momentum below this
+
+    // Block native HTML5 drag on cards/imgs so the rail drag stays clean
+    rail.querySelectorAll('img, a').forEach((el) => {
+      el.setAttribute('draggable', 'false');
+      el.addEventListener('dragstart', (e) => e.preventDefault());
+    });
+
+    const cancelMomentum = () => {
+      if (momentumRAF) {
+        cancelAnimationFrame(momentumRAF);
+        momentumRAF = 0;
+      }
+    };
+
+    const runMomentum = () => {
+      if (Math.abs(velocity) < MIN_VELOCITY) {
+        momentumRAF = 0;
+        return;
+      }
+      rail.scrollLeft -= velocity;
+      velocity *= MOMENTUM_DECAY;
+      momentumRAF = requestAnimationFrame(runMomentum);
+    };
 
     const onDown = (e) => {
-      isDown = true;
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      if (e.pointerType === 'touch') return;     // touch keeps native scrolling
+
+      cancelMomentum();
+      pointerId = e.pointerId;
       moved = false;
-      rail.classList.add('is-dragging');
-      startX = (e.touches ? e.touches[0].pageX : e.pageX);
+      startX = e.pageX;
+      lastX = e.pageX;
+      lastTime = performance.now();
+      velocity = 0;
       startScroll = rail.scrollLeft;
+      rail.classList.add('is-dragging');
+      rail.setPointerCapture(pointerId);
     };
+
     const onMove = (e) => {
-      if (!isDown) return;
-      const x = (e.touches ? e.touches[0].pageX : e.pageX);
-      const dx = x - startX;
-      if (Math.abs(dx) > 4) moved = true;
-      rail.scrollLeft = startScroll - dx;
+      if (e.pointerId !== pointerId) return;
+      const dx = e.pageX - startX;
+      if (!moved && Math.abs(dx) > DRAG_THRESHOLD) moved = true;
+      if (moved) {
+        e.preventDefault();
+        rail.scrollLeft = startScroll - dx;
+
+        // Track instantaneous velocity for momentum on release.
+        // Normalize to "px per frame" so MOMENTUM_DECAY behaves consistently.
+        const now = performance.now();
+        const dt = now - lastTime;
+        if (dt > 0) {
+          const frameDx = (e.pageX - lastX) * (16.67 / dt);
+          // Light low-pass filter so a single jittery sample doesn't dominate
+          velocity = velocity * 0.4 + frameDx * 0.6;
+        }
+        lastX = e.pageX;
+        lastTime = now;
+      }
     };
-    const onUp = () => {
-      isDown = false;
+
+    const onUp = (e) => {
+      if (pointerId === null || (e && e.pointerId !== pointerId)) return;
+      try { rail.releasePointerCapture(pointerId); } catch (_) {}
+      pointerId = null;
       rail.classList.remove('is-dragging');
+      // Kick off momentum if the user flicked
+      if (Math.abs(velocity) >= MIN_VELOCITY) {
+        momentumRAF = requestAnimationFrame(runMomentum);
+      }
     };
 
-    rail.addEventListener('mousedown', onDown);
-    rail.addEventListener('mousemove', onMove);
-    rail.addEventListener('mouseup', onUp);
-    rail.addEventListener('mouseleave', onUp);
+    rail.addEventListener('pointerdown', onDown);
+    rail.addEventListener('pointermove', onMove);
+    rail.addEventListener('pointerup', onUp);
+    rail.addEventListener('pointercancel', onUp);
+    // Stop momentum if the user starts scrolling another way
+    rail.addEventListener('wheel', cancelMomentum, { passive: true });
 
-    rail.addEventListener('touchstart', onDown, { passive: true });
-    rail.addEventListener('touchmove', onMove, { passive: true });
-    rail.addEventListener('touchend', onUp);
-
-    // Suppress click after drag
+    // Suppress the click that fires after a drag
     rail.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', (e) => {
         if (moved) {
           e.preventDefault();
+          e.stopPropagation();
           moved = false;
         }
       });
     });
 
-    // Trackpad horizontal swipes scroll the rail natively (no JS needed).
+    // Trackpad horizontal swipes & touch scroll natively — no JS needed.
     // Vertical wheel always passes through to page scroll — never hijacked.
   });
 
