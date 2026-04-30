@@ -197,14 +197,31 @@
     placePins();
   }
 
-  /* ---------- Site-header brand: hide while in hero ---------- */
+  /* ---------- Site-header: scroll-driven state ----------
+     - .in-hero  : while in the hero section (controls brand size)
+     - .over-dark: while the menu overlaps a dark section (flips text to white)
+       The only dark section on the page is the showreel when full-bleed. */
   const siteHeader = document.querySelector('.site-header');
   const hero = document.querySelector('.hero');
-  if (siteHeader && hero) {
+  const showreelEl = document.getElementById('showreel');
+  if (siteHeader) {
     const onScroll = () => {
-      const heroBottom = hero.offsetTop + hero.offsetHeight;
-      const scrolled = window.scrollY + 80; // a bit before hero ends
-      siteHeader.classList.toggle('in-hero', scrolled < heroBottom);
+      // in-hero
+      if (hero) {
+        const heroBottom = hero.offsetTop + hero.offsetHeight;
+        const scrolled = window.scrollY + 80;
+        siteHeader.classList.toggle('in-hero', scrolled < heroBottom);
+      }
+
+      // over-dark — only true while the showreel video is full-bleed AND the
+      // menu's vertical band is inside the showreel section
+      if (showreelEl) {
+        const headerH = siteHeader.offsetHeight || 60;
+        const r = showreelEl.getBoundingClientRect();
+        const overlapping = r.top < headerH && r.bottom > 0;
+        const isFullBleed = showreelEl.classList.contains('is-full');
+        siteHeader.classList.toggle('over-dark', overlapping && isFullBleed);
+      }
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -434,13 +451,8 @@
       });
     });
 
-    // Wheel: convert vertical scroll to horizontal when over rail and shift not held
-    rail.addEventListener('wheel', (e) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        rail.scrollLeft += e.deltaY;
-        e.preventDefault();
-      }
-    }, { passive: false });
+    // Trackpad horizontal swipes scroll the rail natively (no JS needed).
+    // Vertical wheel always passes through to page scroll — never hijacked.
   });
 
   /* ---------- Team-room object drag ---------- */

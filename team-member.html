@@ -34,110 +34,218 @@
   </header>
 
   <!-- ============ MEMBER HERO ============ -->
-  <section class="page-hero" style="border: 0; padding-bottom: 32px;">
-    <span class="eyebrow"><span class="dot"></span><a href="index.html#team" style="color: inherit;">← The team</a></span>
-    <h1 class="display reveal" style="margin-top: 16px;">Kai Tsao</h1>
-    <p class="lead reveal" style="margin-top: 16px;">Creative Director · Taipei via Vancouver. Used to make album covers, now makes brands. Believes most things look better in black and white.</p>
+  <section class="member-hero" data-member="kai">
+    <div class="brand-gradient" aria-hidden="true"></div>
+
+    <!-- Playroom strip lives INSIDE the hero so the gradient washes behind it -->
+    <div class="playroom-strip">
+      <a href="index.html#team" class="playroom-strip__back">← The team</a>
+      <span class="playroom-strip__viewing">You are viewing <strong>Kai's playroom</strong></span>
+      <span class="playroom-strip__visitors"><span class="dot--live"></span>12 visitors today</span>
+    </div>
+
+    <div class="member-hero__layout">
+      <div class="member-hero__text">
+        <span class="eyebrow"><span class="dot"></span>Creative Direction</span>
+
+        <h1 class="member-name">Kai Tsao</h1>
+        <p class="member-tagline"><em>Half from somewhere else.</em> Brand systems for Taiwan's most ambitious makers.</p>
+
+        <p class="member-bio">A 10-year veteran of design studios in Vancouver, NYC and Taipei. Joined Modular in 2025 to lead the creative practice. Believer in plain language, good craft, and the long way round.</p>
+
+        <div class="member-actions">
+          <button class="btn-primary">
+            <span class="btn-icon">+</span> Follow
+          </button>
+          <a href="mailto:kai.tsao@modularagency.io" class="btn-secondary">Message</a>
+
+          <div class="audio-intro" aria-label="Voice intro">
+            <button class="audio-play">▶</button>
+            <div class="waveform" aria-hidden="true">
+              <span style="--h: 30%"></span><span style="--h: 55%"></span><span style="--h: 70%"></span>
+              <span style="--h: 45%"></span><span style="--h: 80%"></span><span style="--h: 60%"></span>
+              <span style="--h: 90%"></span><span style="--h: 65%"></span><span style="--h: 50%"></span>
+              <span style="--h: 75%"></span><span style="--h: 40%"></span><span style="--h: 85%"></span>
+              <span style="--h: 55%"></span><span style="--h: 70%"></span><span style="--h: 35%"></span>
+              <span style="--h: 60%"></span><span style="--h: 80%"></span><span style="--h: 45%"></span>
+              <span style="--h: 70%"></span><span style="--h: 25%"></span><span style="--h: 65%"></span>
+              <span style="--h: 50%"></span><span style="--h: 75%"></span><span style="--h: 40%"></span>
+              <span style="--h: 60%"></span><span style="--h: 30%"></span><span style="--h: 55%"></span>
+            </div>
+            <span class="audio-duration">0:32</span>
+          </div>
+        </div>
+      </div>
+
+      <a href="#" class="member-photo" aria-label="Kai Tsao photo">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80" alt="Kai Tsao" />
+        <span class="member-photo__caption">Da'an &middot; April</span>
+      </a>
+    </div>
   </section>
 
-  <!-- ============ THE ROOM ============ -->
-  <section class="room">
-    <div class="room__inner">
+  <!-- ============ SECTION 01 — KAI'S STACK ============ -->
+  <section class="stack">
+    <header class="section-head section-head--on-cream">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Kai's stack</h2>
+      <span class="section-meta">Things that show up at my desk</span>
+    </header>
 
-      <!-- Polaroid / image objects -->
-      <div class="object object--polaroid" style="left: 4%; top: 0; transform: rotate(-3deg);">
-        <div class="swatch sw-2" style="background: linear-gradient(160deg, #1a1a1a, #555);"></div>
-        <p class="caption">Ramones, Taipei, 2019</p>
+    <div class="stack__canvas">
+      <!-- Centre: the person -->
+      <div class="stack-item stack-item--center" style="left: 50%; top: 50%;">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80" alt="Kai" />
+        <span class="stack-label stack-label--cta">Kai's stack <span class="stack-label__plus">+</span></span>
       </div>
 
-      <div class="object object--polaroid" style="left: 26%; top: 80px; transform: rotate(2deg);">
-        <div class="swatch" style="background: linear-gradient(160deg, #f3e7d3, #c4a06b);"></div>
-        <p class="caption">Studio · Da'an</p>
-      </div>
+      <!-- Floating objects (positions tuned to keep clear of the centre) -->
+      <a href="#" class="stack-item" style="left: 8%; top: 18%;">
+        <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80" alt="MacBook Pro" />
+        <span class="stack-label">MacBook Pro</span>
+      </a>
 
-      <div class="object object--polaroid" style="right: 6%; top: 40px; transform: rotate(-2deg); width: 200px;">
-        <div class="swatch" style="background: linear-gradient(160deg, #b1c4e0, #4a6db8);"></div>
-        <p class="caption">First album cover, 2014</p>
-      </div>
+      <a href="#" class="stack-item" style="left: 26%; top: 6%;">
+        <img src="https://images.unsplash.com/photo-1517959105821-eaf2591984ca?auto=format&fit=crop&w=400&q=80" alt="Moka pot" />
+        <span class="stack-label">Moka Pot</span>
+      </a>
 
-      <!-- Quote object -->
-      <div class="object object--quote" style="left: 6%; top: 380px; transform: rotate(-1deg);">
-        <p class="text">"Brand is the smallest set of decisions a company can hide behind."</p>
-        <p class="source">— Something I keep telling clients</p>
-      </div>
+      <a href="#" class="stack-item" style="left: 46%; top: 4%;">
+        <img src="https://images.unsplash.com/photo-1495707902641-75cac588d2e9?auto=format&fit=crop&w=400&q=80" alt="Vintage camera" />
+        <span class="stack-label">Leica M6</span>
+      </a>
 
-      <!-- Currently list -->
-      <div class="object object--list" style="left: 38%; top: 340px; transform: rotate(2deg);">
-        <h4>Currently</h4>
-        <ul>
-          <li>📖 <em>Status and Culture</em> — W. David Marx</li>
-          <li>🎵 Mount Kimbie — <em>The Sunset Violent</em></li>
-          <li>🎮 Expedition 33</li>
-          <li>☕ Fika Fika, every weekday</li>
+      <a href="#" class="stack-item" style="left: 70%; top: 8%;">
+        <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=400&q=80" alt="Status and Culture" />
+        <span class="stack-label">Status &amp; Culture</span>
+      </a>
+
+      <a href="#" class="stack-item" style="left: 86%; top: 22%;">
+        <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=400&q=80" alt="Plant" />
+        <span class="stack-label">Monstera</span>
+      </a>
+
+      <a href="#" class="stack-item" style="left: 4%; top: 50%;">
+        <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=400&q=80" alt="Notebook" />
+        <span class="stack-label">Field Notes</span>
+      </a>
+
+      <a href="#" class="stack-item" style="left: 22%; top: 70%;">
+        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=400&q=80" alt="Vinyl record" />
+        <span class="stack-label">In Rainbows</span>
+      </a>
+
+      <a href="#" class="stack-item" style="left: 44%; top: 80%;">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80" alt="Sneakers" />
+        <span class="stack-label">Onitsuka</span>
+      </a>
+
+      <a href="#" class="stack-item" style="left: 68%; top: 76%;">
+        <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=400&q=80" alt="Headphones" />
+        <span class="stack-label">AirPods Max</span>
+      </a>
+
+      <a href="#" class="stack-item" style="left: 88%; top: 58%;">
+        <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=400&q=80" alt="Pen" />
+        <span class="stack-label">Lamy 2000</span>
+      </a>
+    </div>
+
+    <p class="stack__hint">Hover any object &middot; drag and rearrange coming soon</p>
+  </section>
+
+  <!-- ============ SECTION 02 — ABOUT ============ -->
+  <section class="modules-section">
+    <header class="section-head">
+      <span class="section-num">02</span>
+      <h2 class="section-title">About</h2>
+      <span class="section-meta">A few things to know</span>
+    </header>
+
+    <div class="modules__grid">
+      <article class="module module--quote module--wide">
+        <span class="module__label">What I believe</span>
+        <blockquote class="quote">Brand is the smallest set of decisions a company can hide behind.</blockquote>
+        <span class="quote__source">— Something I keep telling clients</span>
+      </article>
+
+      <article class="module module--stat module--dark">
+        <span class="module__label module__label--inverse">In numbers</span>
+        <span class="stat__number">10</span>
+        <span class="stat__label">years designing brands across Taipei, NYC and London.</span>
+      </article>
+
+      <article class="module module--experience">
+        <span class="module__label">Experience</span>
+        <ul class="timeline">
+          <li><span class="timeline__year">2025</span><span class="timeline__role">Modular &middot; Creative Director</span></li>
+          <li><span class="timeline__year">2022</span><span class="timeline__role">Pentagram NYC &middot; Senior Designer</span></li>
+          <li><span class="timeline__year">2019</span><span class="timeline__role">Mucho &middot; Designer</span></li>
+          <li><span class="timeline__year">2015</span><span class="timeline__role">Independent &middot; Album covers</span></li>
         </ul>
-      </div>
+      </article>
 
-      <!-- Influences list -->
-      <div class="object object--list" style="left: 62%; top: 280px; transform: rotate(-2deg);">
-        <h4>Five things that made me</h4>
-        <ul>
+      <article class="module module--map">
+        <span class="module__label">Based in</span>
+        <div class="map__bg">
+          <span class="map__city">Taipei</span>
+          <span class="map__sub">Da'an district</span>
+        </div>
+      </article>
+
+      <article class="module module--love">
+        <div class="love__image" style="background-image: linear-gradient(135deg, rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1502810190503-8303352d0dd1?auto=format&fit=crop&w=900&q=80');"></div>
+        <span class="love__badge">⚽ I love teaching design</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 03 — HOW I WORK ============ -->
+  <section class="modules-section">
+    <header class="section-head">
+      <span class="section-num">03</span>
+      <h2 class="section-title">How I work</h2>
+      <span class="section-meta">Process & influences</span>
+    </header>
+
+    <div class="modules__grid">
+      <article class="module module--process module--wide">
+        <span class="module__label">Process</span>
+        <div class="process__content">
+          <h3>01 Discovery Call</h3>
+          <p>A 30-minute free consultation so I can get to learn about your specific needs and come up with a plan.</p>
+        </div>
+        <div class="process__tabs">
+          <button class="process__tab is-active">Step 01</button>
+          <button class="process__tab">Step 02</button>
+          <button class="process__tab">Step 03</button>
+          <button class="process__tab">Step 04</button>
+        </div>
+      </article>
+
+      <article class="module module--list">
+        <span class="module__label">Five things that made me</span>
+        <ul class="bullet-list">
           <li>Wong Kar-wai films</li>
           <li>Pentagram (the early years)</li>
           <li>My grandfather's typewriter</li>
           <li>Touring with a punk band at 19</li>
           <li>Moving to Taiwan in 2015</li>
         </ul>
-      </div>
-
-      <!-- Sticky note -->
-      <div class="object object--note" style="left: 82%; top: 480px; transform: rotate(4deg);">
-        Reply to Michael<br/>about the bike thing 🛵
-      </div>
-
-      <!-- Doodle / drawing object -->
-      <div class="object object--polaroid" style="left: 18%; top: 580px; transform: rotate(3deg); width: 240px;">
-        <div class="swatch" style="background: #fff; border: 1px solid var(--line); position: relative; aspect-ratio: 4/3;">
-          <svg viewBox="0 0 200 150" style="position: absolute; inset: 0; width: 100%; height: 100%;">
-            <path d="M30,100 Q60,30 100,80 T170,60" stroke="#0a0a0a" stroke-width="2" fill="none" stroke-linecap="round"/>
-            <circle cx="100" cy="80" r="4" fill="#0029f5"/>
-            <text x="50" y="125" font-family="Caveat, sans-serif" font-size="14" fill="#666">an idea, half-finished</text>
-          </svg>
-        </div>
-        <p class="caption">Sketchbook, March</p>
-      </div>
-
-      <!-- Music embed style -->
-      <div class="object object--list" style="left: 46%; top: 600px; transform: rotate(-1deg); width: 280px;">
-        <h4>Listening to right now</h4>
-        <div style="display: flex; gap: 12px; align-items: center; padding: 8px 0;">
-          <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #fd007a, #0029f5); border-radius: 4px;"></div>
-          <div>
-            <div style="font-weight: 500;">Glory</div>
-            <div style="color: var(--ink-soft); font-size: 13px;">Perfume Genius</div>
-          </div>
-        </div>
-        <div style="height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-top: 8px;">
-          <div style="width: 38%; height: 100%; background: var(--blue);"></div>
-        </div>
-      </div>
-
-      <!-- Long quote / personal -->
-      <div class="object object--quote" style="left: 6%; top: 760px; width: 360px;">
-        <p class="text" style="font-size: 16px; line-height: 1.5;">I joined Modular because I wanted to do work I could explain to my mum. Not "branding" &mdash; the actual thing the company does, said clearly. That's most of what we make here. The rest is just craft.</p>
-        <p class="source">A short bio I keep meaning to put on LinkedIn</p>
-      </div>
-
-      <!-- Image -->
-      <div class="object object--polaroid" style="right: 8%; top: 780px; transform: rotate(1deg); width: 240px;">
-        <div class="swatch" style="background: linear-gradient(160deg, #002d2d, #045454);"></div>
-        <p class="caption">Hsinchu factory floor</p>
-      </div>
-
+      </article>
     </div>
+  </section>
 
-    <p style="text-align: center; color: var(--ink-soft); font-size: 13px; margin-top: 80px; letter-spacing: 0.04em;">
-      Drag anything, anywhere. This room is mine.
-    </p>
+  <!-- ============ MEMBER CTA ============ -->
+  <section class="member-cta">
+    <div class="member-cta__inner">
+      <p class="eyebrow"><span class="dot"></span>Get in touch</p>
+      <h2 class="member-cta__title">Want to work <em>with Kai</em>?</h2>
+      <a href="mailto:kai.tsao@modularagency.io" class="member-cta__link">
+        kai.tsao@modularagency.io
+        <span class="arrow">→</span>
+      </a>
+    </div>
   </section>
 
   <!-- ============ WORK BY KAI ============ -->
