@@ -2330,6 +2330,13 @@ p { margin: 0; }
   .m-mod--work, .m-mod--movie, .m-mod--quote, .m-mod--locale-tile {
     grid-column: 1; grid-row: auto;
   }
+
+  /* Cover-art miniatures get more presence on phones — they were
+     undersized (82px) in a full-width tile with a lot of empty space. */
+  .m-mod__cover-art { height: clamp(140px, 34vw, 180px); }
+  .m-mod--listen .m-mod__cover-art { height: clamp(160px, 40vw, 220px); }
+  .m-mod--reading .m-mod__cover-art,
+  .m-mod__cover-art--poster { height: clamp(160px, 40vw, 220px); }
 }
 
 /* ─── Base tile ─────────────────────────────────────────── */
