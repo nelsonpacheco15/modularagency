@@ -2306,15 +2306,23 @@ p { margin: 0; }
 .m-mod--locale-tile { grid-column: span 4; }
 
 @media (max-width: 1000px) {
-  .member-modules__grid { grid-template-columns: repeat(6, 1fr); }
+  .member-modules__grid {
+    grid-template-columns: repeat(6, 1fr);
+    /* let rows size to content so text-heavy tiles don't overflow into
+       the next tile and look like overlap */
+    grid-auto-rows: auto;
+  }
   .m-mod--identity, .m-mod--listen { grid-column: span 6; grid-row: auto; aspect-ratio: 1 / 1; }
   .m-mod--bio, .m-mod--reading, .m-mod--locale-tile { grid-column: span 6; }
-  .m-mod--work { grid-column: span 6; }
+  .m-mod--work { grid-column: span 6; min-height: clamp(280px, 56vw, 420px); }
   .m-mod--movie { grid-column: span 3; }
   .m-mod--quote { grid-column: span 6; }
+  /* text tiles stop being capped at 240px so their content fits */
+  .m-mod--bio, .m-mod--reading, .m-mod--quote, .m-mod--locale-tile { min-height: 220px; }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 720px) {
+  /* True mobile: every tile gets its own row, full width — stacked cleanly. */
   .member-modules__grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
   .m-mod { aspect-ratio: auto; min-height: 220px; }
   .m-mod--identity, .m-mod--listen { aspect-ratio: 1 / 1; }
