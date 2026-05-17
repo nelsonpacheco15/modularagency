@@ -13,13 +13,17 @@
 
   // Scene constants
   const CAM_TRAVEL = 9400;       // total z-range a tile traverses before wrapping
-  const FADE_START_Z = -180;     // when a tile crosses this it starts fading out (and growing huge)
-  const HIDE_Z = 40;             // fully invisible past here — wraps to the back
+  // Tiles stay fully opaque right up until they're "at the edge" of the
+  // viewport. With perspective=900, a tile at z=-60 renders at ~15× scale
+  // (a 170px tile becomes ~2550px wide, well past viewport edges). The
+  // fade window is intentionally narrow — opacity drops only in the last
+  // few z-units of approach so tiles fade out RIGHT at the edge instead
+  // of disappearing while they're still inside the frame.
+  const FADE_START_Z = -55;
+  const HIDE_Z = -5;
   const FADE_IN_FROM = -CAM_TRAVEL + 200;   // just-wrapped tiles fade in over this range
   const FADE_IN_TO   = -CAM_TRAVEL + 1000;
   const AMBIENT_SPEED = 60;      // px / sec — slow forward drift even without scroll
-  // Each px of scroll drives roughly 1.6 px of camera motion (CAM_TRAVEL ÷ 700vh)
-  // — chosen so scrolling produces noticeable approach without being violent.
 
   const DESIGN_W = 1440;
   const DESIGN_H = 900;
