@@ -30,9 +30,25 @@
     };
   }
 
+  // 240px is plenty for the largest tile (xl=280px); using a smaller source
+  // means each request returns ~10× faster than a 480px tile.
   function placeholder(seed) {
-    return `https://picsum.photos/seed/${encodeURIComponent(seed)}/480/480`;
+    return `https://picsum.photos/seed/${encodeURIComponent(seed)}/240/240`;
   }
+
+  // Preload every tile image up-front via <link rel="preload"> so the
+  // browser starts the network fetches immediately, in parallel, at high
+  // priority — instead of waiting until each <img> is parsed/inserted.
+  const preloadFrag = document.createDocumentFragment();
+  projs.forEach((el) => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = placeholder(el.dataset.seed || 'modular');
+    link.setAttribute('fetchpriority', 'high');
+    preloadFrag.appendChild(link);
+  });
+  document.head.appendChild(preloadFrag);
 
   // ----- Build markup -----
   const items = projs.map((el) => {
@@ -42,7 +58,7 @@
 
     el.innerHTML = `
       <div class="proj__inner">
-        <img class="proj__img" alt="${label}" loading="lazy" src="${placeholder(seed)}" />
+        <img class="proj__img" alt="${label}" loading="eager" decoding="async" fetchpriority="high" src="${placeholder(seed)}" />
         <div class="proj__label"><span class="l">${label}</span><span class="r">${cat}</span></div>
       </div>
     `;
