@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Modular — Square-tile canvas with slow scroll parallax.
+   White page. Square project tiles scattered across the canvas around a
+   centered title. Scrolling drifts them slowly in the scroll direction.
+   ========================================================================== */
+
+:root,
+body.canvas {
+  --bg:        #FFFFFF;
+  --ink:       #0A0A0A;
+  --ink-soft:  rgba(10, 10, 10, 0.55);
+  --ink-faint: rgba(10, 10, 10, 0.32);
+  --rule:      rgba(10, 10, 10, 0.08);
+  --accent:    #FD007A;
+  --blue:      #0029F5;
+
+  --font-display: 'Reckless Neue', 'Times New Roman', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-body: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+html, body.canvas {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body.canvas { overflow-x: hidden; min-height: 100%; }
+body.canvas ::selection { background: var(--ink); color: var(--bg); }
+body.canvas a { color: inherit; text-decoration: none; }
+body.canvas * { box-sizing: border-box; }
+
+/* Page is a tall scroller — gives the camera runway to travel through Z. */
+.cv-scroll {
+  height: 700vh;
+  width: 100%;
+  pointer-events: none;
+}
+
+/* ================ Fixed chrome ================ */
+.cv-nav {
+  position: fixed; top: 22px;
+  left: 22px; right: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  pointer-events: none;
+}
+.cv-nav > * { pointer-events: auto; }
+
+.cv-brand {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  color: var(--ink);
+}
+.cv-brand svg { height: 20px; width: auto; display: block; }
+
+.cv-nav-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+.cv-nav-links a { position: relative; padding: 6px 2px; }
+.cv-nav-links a::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 4px;
+  height: 1px; background: var(--ink);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 320ms var(--ease);
+}
+.cv-nav-links a:hover::after { transform: scaleX(1); }
+body.canvas .cv-cta {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 8px 12px;
+  transition: background 240ms var(--ease);
+}
+body.canvas .cv-cta::after { display: none; }
+body.canvas .cv-cta:hover { background: var(--accent); color: var(--bg); }
+
+/* Footer ribbon */
+.cv-foot {
+  position: fixed;
+  left: 22px; right: 22px;
+  bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-soft);
+  z-index: 100;
+  pointer-events: none;
+}
+.cv-foot a { pointer-events: auto; color: var(--ink); }
+.cv-foot__center { display: inline-flex; gap: 14px; }
+
+/* ================ Centered phrase ================ */
+.cv-hero {
+  position: fixed;
+  left: 0; right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 60;
+  pointer-events: none;
+}
+.cv-hero > * { pointer-events: auto; }
+
+.cv-hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--ink-soft);
+  margin: 0 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.cv-hero__eyebrow::before,
+.cv-hero__eyebrow::after {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+}
+
+.cv-hero__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(22px, 1.9vw, 26px);
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+  margin: 0;
+  max-width: 30ch;
+  color: var(--ink);
+}
+.cv-hero__title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.cv-hero__sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+  margin: 18px auto 0;
+  max-width: clamp(280px, 64vw, 880px);
+  line-height: 1.7;
+}
+
+/* ================ The 3D scene + projects ================ */
+.cv-scene {
+  position: fixed;
+  inset: 0;
+  perspective: 900px;
+  perspective-origin: 50% 50%;
+  z-index: 30;
+  pointer-events: none;
+  overflow: hidden;
+}
+.cv-scene__inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+/* Each tile is square. data-x/data-y set its world-space position relative
+   to the scene center; data-z is its depth (negative = away from camera).
+   The shared --cam variable on the inner moves the camera forward, growing
+   distant tiles as they approach. */
+.proj {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 170px;
+  height: 170px;
+  margin-left: -85px;
+  margin-top: -85px;
+  transform: translate3d(var(--x, 0px), var(--y, 0px), var(--z, -2000px))
+             rotate(var(--r, 0deg));
+  will-change: transform, opacity;
+  pointer-events: auto;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  backface-visibility: hidden;
+}
+.proj__inner {
+  width: 100%; height: 100%;
+  position: relative;
+  background: #f5f5f4;
+  overflow: hidden;
+  border-radius: 3px;
+  box-shadow:
+    0 1px 2px rgba(10,10,10,0.04),
+    0 14px 36px -16px rgba(10,10,10,0.18),
+    0 0 0 1px rgba(10,10,10,0.04);
+  transition: transform 360ms var(--ease), box-shadow 360ms var(--ease);
+}
+.proj__img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92);
+  transition: filter 600ms var(--ease), transform 800ms var(--ease);
+}
+.proj__label {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0;
+  padding: 8px 10px 9px;
+  background: linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.55) 100%);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 280ms var(--ease), transform 280ms var(--ease);
+  pointer-events: none;
+}
+.proj__label .l { color: #fff; }
+.proj__label .r { color: rgba(255,255,255,0.7); }
+
+@media (hover: hover) {
+  .proj:hover .proj__inner {
+    transform: scale(1.05);
+    box-shadow:
+      0 2px 4px rgba(10,10,10,0.06),
+      0 22px 50px -18px rgba(10,10,10,0.28),
+      0 0 0 1px rgba(10,10,10,0.06);
+  }
+  .proj:hover .proj__img { filter: saturate(1); }
+  .proj:hover .proj__label { opacity: 1; transform: translateY(0); }
+}
+
+/* Square size variance — every tile is a square, just different scales */
+.proj[data-size="xs"] { width:  88px; height:  88px; margin-left: -44px;  margin-top: -44px; }
+.proj[data-size="s"]  { width: 120px; height: 120px; margin-left: -60px;  margin-top: -60px; }
+.proj[data-size="m"]  { width: 170px; height: 170px; margin-left: -85px;  margin-top: -85px; }
+.proj[data-size="l"]  { width: 230px; height: 230px; margin-left: -115px; margin-top: -115px; }
+.proj[data-size="xl"] { width: 280px; height: 280px; margin-left: -140px; margin-top: -140px; }
+
+/* ================ Scroll hint ================ */
+.cv-hint {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--ink-soft);
+  z-index: 70;
+  pointer-events: none;
+  transition: opacity 400ms var(--ease);
+}
+.cv-hint.is-hidden { opacity: 0; }
+.cv-hint__rule {
+  width: 1px;
+  height: 50px;
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.cv-hint__rule::after {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: 0; right: 0;
+  height: 50px;
+  background: var(--bg);
+  animation: hint-tick 2400ms ease-in-out infinite;
+}
+@keyframes hint-tick {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(100px); }
+}
+
+/* ================ Mobile ================ */
+@media (max-width: 760px) {
+  .cv-nav { top: 14px; left: 14px; right: 14px; }
+  .cv-foot { left: 14px; right: 14px; bottom: 12px; font-size: 9px; }
+  .cv-foot__center { display: none; }
+  .cv-nav-links a:not(.cv-cta) { display: none; }
+  .cv-hint { display: none; }
+
+  .cv-hero__title { font-size: 18px; max-width: 22ch; }
+
+  .proj[data-size="xs"] { width:  56px; height:  56px; margin-left: -28px; margin-top: -28px; }
+  .proj[data-size="s"]  { width:  76px; height:  76px; margin-left: -38px; margin-top: -38px; }
+  .proj[data-size="m"]  { width: 100px; height: 100px; margin-left: -50px; margin-top: -50px; }
+  .proj[data-size="l"]  { width: 130px; height: 130px; margin-left: -65px; margin-top: -65px; }
+  .proj[data-size="xl"] { width: 160px; height: 160px; margin-left: -80px; margin-top: -80px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-hint__rule::after { animation: none; }
+}
